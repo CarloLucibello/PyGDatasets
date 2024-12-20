@@ -2,11 +2,23 @@
     InMemoryGNNDataset
 
 A graph dataset that holds all graphs in memory as a collection of `GNNGraph`s.
+
+# Fields
+
+- `dataset::String`: The name of the dataset.
+- `subdataset::Union{String, Nothing}`: The name of the subdataset if any.
+- `graphs::Vector{GNNGraph}`: The collection of graphs.
+- `num_graphs::Int`: The number of graphs in the dataset.
+- `node_features::Vector{Symbol}`: The names of the node features.
+- `edge_features::Vector{Symbol}`: The names of the edge features.
+- `graph_features::Vector{Symbol}`: The names of the graph features.
+- `root::Union{String, Nothing}`: The name of the root node.
 """
 struct InMemoryGNNDataset
     dataset::String
     subdataset::Union{String, Nothing}
     graphs::Vector{GNNGraph}
+    num_graphs::Int
     node_features::Vector{Symbol}
     edge_features::Vector{Symbol}
     graph_features::Vector{Symbol}

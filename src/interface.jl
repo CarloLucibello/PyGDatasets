@@ -115,7 +115,8 @@ function load_dataset(dataset::String; root=nothing, kws...)
         
     return InMemoryGNNDataset(dataset,
                               :name in keys(kws) ? kws[:name] : nothing,
-                              graphs, 
+                              graphs,
+                              length(graphs),
                               node_features, 
                               edge_features, 
                               graph_features,
