@@ -1,0 +1,8 @@
+channels = ["pyg"]
+
+[deps]
+python = "==3.11" # crash on Mac M1 with 3.12
+pyg = ">=2.0, <3"
+numpy = ""
+pytorch = ""
+rdkit = ""

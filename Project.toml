@@ -1,13 +1,18 @@
 name = "PyGDatasets"
 uuid = "44f67abd-f36e-4be4-bfe5-65f468a62b3d"
 authors = ["Carlo Lucibello <carlo.lucibello@gmail.com> and contributors"]
-version = "1.0.0-DEV"
+version = "0.1.0-DEV"
+
+[deps]
+DLPack = "53c2dc0f-f7d5-43fd-8906-6c0220547083"
+GNNGraphs = "aed8fd31-079b-4b5a-b342-a13352159b8c"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
+Scratch = "6c6a2e73-6563-6170-7368-637461726353"
 
 [compat]
+DLPack = "0.3.0"
+GNNGraphs = "1.3.1"
+PythonCall = "0.9.23"
+Scratch = "1.2.1"
 julia = "1.10"
 
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
