@@ -1,4 +1,4 @@
-channels = ["pyg"]
+channels = ["pyg", "pytorch"]
 
 [deps]
 python = "<=3.11" # crash on Mac M1 with 3.12
