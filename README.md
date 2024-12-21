@@ -12,6 +12,11 @@ pkg> add PyGDatasets
 
 ## Usage
 
+The package provides the following functions:
+- `load_dataset(dataset::String; kws...)`: Load a pytorch geometric dataset by name.
+- `pygdata_to_gnngraph(data)`: Convert a PyTorch Geometric dataset to a `GNNGraph` object.
+
+
 ```julia
 julia> using PyGDatasets
 
@@ -43,7 +48,7 @@ load_dataset("Planetoid", root="./", name="Cora")
 load_dataset("MoleculeNet", name="ESOL")
 ```
 
-## References
+## Dataset References
 
 - [PyG Datasets Cheatsheet](https://pytorch-geometric.readthedocs.io/en/stable/notes/data_cheatsheet.html)
 - [PyG Datasets Documentation](https://pytorch-geometric.readthedocs.io/en/stable/modules/datasets.html)

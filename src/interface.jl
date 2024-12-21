@@ -1,3 +1,13 @@
+function try_from_dlpack(x)
+    try
+        return from_dlpack(x)
+    catch
+        a = pyconvert(Array, x)
+        n = ndims(a)
+        return permutedims(a, ntuple(i -> n-i+1, n))
+    end
+end
+
 
 """
     pygdata_to_gnngraph(data)
@@ -48,7 +58,7 @@ function pygdata_to_gnngraph(data)
         k == :num_edges && continue
         py_x = getproperty(data, k)
         if pyisinstance(py_x, torch.Tensor)
-            x = from_dlpack(py_x)
+            x = try_from_dlpack(py_x)
             last_dim = size(x, ndims(x))
             if last_dim == num_nodes && num_nodes != num_edges
                 ndata = (; ndata..., k => x)
