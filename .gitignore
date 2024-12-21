@@ -3,3 +3,4 @@
 /test.jl
 .CondaPkg/
 temp/
+.vscode/
