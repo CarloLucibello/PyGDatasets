@@ -2,7 +2,9 @@
 
 [![Build Status](https://github.com/CarloLucibello/PyGDatasets.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/CarloLucibello/PyGDatasets.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
-This package provides a Julia interface to the datasets available in [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/stable/modules/datasets.html).
+This package provides a Julia interface to the datasets available in [PyTorch Geometric](https://pytorch-geometric.readthedocs.io/en/stable/modules/datasets.html)
+through [PythonCall](https://github.com/JuliaPy/PythonCall.jl).
+PyG data types are conveniently converted to [GNNGraphs.jl](https://juliagraphs.org/GraphNeuralNetworks.jl/docs/GNNGraphs.jl/stable/) types, ready to be used by graph deep learning frameworks such as [GraphNeuralNetworks.jl](https://github.com/JuliaGraphs/GraphNeuralNetworks.jl). 
 
 ## Installation
 
@@ -13,9 +15,10 @@ pkg> add PyGDatasets
 ## Usage
 
 The package provides the following functions:
-- `load_dataset(dataset::String; kws...)`: Load a pytorch geometric dataset by name.
-- `pygdata_to_gnngraph(data)`: Convert a PyTorch Geometric dataset to a `GNNGraph` object.
+- `load_dataset(dataset::String; kws...)`: Load a pytorch geometric dataset and convert it to julia types.
+- `pygdata_to_gnngraph(data)`: Convert a PyTorch Geometric graph type to a `GNNGraphs.jl` graph type.
 
+## Examples
 
 ```julia
 julia> using PyGDatasets
