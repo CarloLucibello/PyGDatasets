@@ -63,3 +63,42 @@ end
     @test g.gdata.y isa Matrix{Float32}
     @test size(g.gdata.y) == (1, 1)
 end
+
+@testitem "MUTAG" setup=[TestModule] begin
+    using .TestModule
+    dataset = load_dataset("TUDataset", name="MUTAG")
+    @test dataset.num_graphs == 188
+    @test dataset.node_features == [:x]
+    @test dataset.edge_features == [:edge_attr]
+    @test dataset.graph_features == [:y]
+    @test length(dataset) == 188
+    for g in dataset
+        @test g.ndata.x isa Matrix{Float32}
+        @test size(g.ndata.x) == (7, g.num_nodes)
+    end
+
+    g = dataset[31]
+    src, dst = edge_index(g)
+    @test src isa Vector{Int}
+    @test dst isa Vector{Int}
+    @test src == [ 0,  0,  1,  1,  2,  2,  3,  3,  3,  4,  4,  4,  5,  5,  6,  6,  6,  7,
+                7,  8,  8,  9,  9, 10, 10, 10, 11, 11, 11, 12, 12, 12, 13, 13, 13, 14,
+                14, 14, 15, 15, 16, 16, 16, 17, 18, 19, 19, 19, 20, 21] .+ 1
+    @test dst == [ 1,  5,  0,  2,  1,  3,  2,  4, 12,  3,  5,  6,  0,  4,  4,  7, 11,  6,
+                    8,  7,  9,  8, 10,  9, 11, 15,  6, 10, 12,  3, 11, 13, 12, 14, 19, 13,
+                    15, 16, 10, 14, 14, 17, 18, 16, 16, 13, 20, 21, 19, 19] .+ 1
+end
+
+@testitem "ESOL" setup=[TestModule] begin
+    using .TestModule
+    dataset = load_dataset("MoleculeNet", name="ESOL")
+    @test dataset.num_graphs == 1128
+    @test dataset.node_features == [:x]
+    @test dataset.edge_features == [:edge_attr]
+    @test dataset.graph_features == [:y, :smiles]
+    @test length(dataset) == 1128
+    @test dataset[1].smiles == "OCC3OC(OCC2OC(OC(C#N)c1ccccc1)C(O)C(O)C2O)C(O)C(O)C3O "
+    @test dataset[2].smiles == "Cc1occc1C(=O)Nc2ccccc2"
+    @test dataset[3].smiles == "CC(C)=CCCC(C)=CC(=O)"
+    @test dataset[4].smiles == "c1ccc2c(c1)ccc3c2ccc4c5ccccc5ccc43"
+end

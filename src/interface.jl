@@ -1,12 +1,12 @@
-function try_from_dlpack(x)
-    try
-        return from_dlpack(x)
-    catch
-        a = pyconvert(Array, x)
-        n = ndims(a)
-        return permutedims(a, ntuple(i -> n-i+1, n))
-    end
-end
+# function try_from_dlpack(x)
+#     # try
+#         return from_dlpack(x)
+#     # catch
+#     #     a = pyconvert(Array, x)
+#     #     n = ndims(a)
+#     #     return permutedims(a, ntuple(i -> n-i+1, n))
+#     # end
+# end
 
 
 """
@@ -21,32 +21,38 @@ Since torch tensors are row-major, the corresponding julia arrays
 will have permuted dimensions.
 """
 function pygdata_to_gnngraph(data)
-    edge_index = from_dlpack(data.edge_index)
+    # edge_index needs .to_dense(), otherwise from_dlpack will fail (TODO report to DLPack.jl)
+    # edge_index = from_dlpack(data.edge_index.to_dense())
     num_nodes = pyconvert(Int, data.num_nodes)
     num_edges = pyconvert(Int, data.num_edges)
-    if length(edge_index) > 0
-        src, dst = edge_index[:,1] .+ 1 , edge_index[:,2] .+ 1
+    if length(data.edge_index) > 0
+        py_src, py_dst = data.edge_index
+        src = from_dlpack(py_src)
+        dst = from_dlpack(py_dst)
+        src, dst = src .+ 1 , dst .+ 1
     else
         src, dst = Int[], Int[]
-        @assert num_edges == 0
     end
     @assert length(src) == num_edges
     @assert length(dst) == num_edges
 
     @assert all(1 .<= src)
-    if !all(src .<= num_nodes)
-        n = maximum(src)
-        # @warn lazy"Found node index $n in edge index `src`, but only $num_nodes nodes in the graph.
-        # Updating num_nodes to $n. This message won't be displayed again." maxlog=1
-        num_nodes = n
-    end
+    @assert all(src .<= num_nodes)
     @assert all(1 .<= dst)
-    if !all(dst .<= num_nodes)
-        n = maximum(dst)
-        # @warn lazy"Found node index $n in edge index `dst`, but only $num_nodes nodes in the graph. 
-        # Updating num_nodes to $n. This message won't be displayed again." maxlog=1
-        num_nodes = n
-    end
+    @assert all(dst .<= num_nodes)
+
+    # if !all(src .<= num_nodes)
+    #     n = maximum(src)
+    #     @warn lazy"Found node index $n in edge index `src`, but only $num_nodes nodes in the graph.
+    #     Updating num_nodes to $n. This message won't be displayed again."
+    #     num_nodes = n
+    # end
+    # if !all(dst .<= num_nodes)
+    #     n = maximum(dst)
+    #     @warn lazy"Found node index $n in edge index `dst`, but only $num_nodes nodes in the graph. 
+    #     Updating num_nodes to $n. This message won't be displayed again."
+    #     num_nodes = n
+    # end
     
     ndata = (;)
     edata = (;)
@@ -58,7 +64,7 @@ function pygdata_to_gnngraph(data)
         k == :num_edges && continue
         py_x = getproperty(data, k)
         if pyisinstance(py_x, torch.Tensor)
-            x = try_from_dlpack(py_x)
+            x = from_dlpack(py_x)
             last_dim = size(x, ndims(x))
             if last_dim == num_nodes && num_nodes != num_edges
                 ndata = (; ndata..., k => x)

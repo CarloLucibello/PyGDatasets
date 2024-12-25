@@ -1,6 +1,8 @@
 Manifest.toml
 .DS_Store
 /test.jl
+/test.ipynb
 .CondaPkg/
 temp/
 .vscode/
+data/

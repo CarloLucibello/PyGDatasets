@@ -27,6 +27,8 @@ end
 
 Base.getindex(d::InMemoryGNNDataset, i::Int) = d.graphs[i]
 Base.length(d::InMemoryGNNDataset) = length(d.graphs)
+Base.iterate(d::InMemoryGNNDataset) = iterate(d.graphs)
+Base.iterate(d::InMemoryGNNDataset, i) = iterate(d.graphs, i)
 
 function Base.show(io::IO, d::InMemoryGNNDataset)
     if get(io, :compact, false)
