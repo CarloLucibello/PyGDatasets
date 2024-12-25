@@ -141,10 +141,8 @@ function to_gnnheterograph(data)
         jt = to_edge_t(t)
         for k in data[t].keys()
             jk = Symbol(k)
-            @show jt jk 
             jk == :edge_index && continue
             py_x = data[t][k]
-            @show pytype(py_x)
             x = try_from_dlpack(py_x)
             last_dim = size(x, ndims(x))
             if last_dim != num_edges[jt] || jk == :edge_label_index

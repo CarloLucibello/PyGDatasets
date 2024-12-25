@@ -141,7 +141,15 @@ end
     @test length(src) == length(dst) == 4278
 end
 
-# @testitem "AMiner" setup=[TestModule] begin
-#     using .TestModule
-#     dataset = load_dataset("AMiner")
-# end
+@testitem "MovieLens100K" setup=[TestModule] begin
+    using .TestModule
+    dataset = load_dataset("MovieLens100K")
+    @test length(dataset) == 1
+    g = dataset[1]
+    @test g.num_nodes == Dict(:user => 943, :movie => 1682)
+    @test g.num_edges == Dict((:movie, :rated_by, :user) => 80000, (:user, :rates, :movie) => 80000)
+    @test g.gdata.edge_label[(:user, :rates, :movie)] isa Vector{Float32}
+    @test length(g.gdata.edge_label[(:user, :rates, :movie)]) == 20000
+    @test g.gdata.edge_label_index[(:user, :rates, :movie)] isa Matrix{Int}
+    @test size(g.gdata.edge_label_index[(:user, :rates, :movie)]) == (20000, 2)
+end
