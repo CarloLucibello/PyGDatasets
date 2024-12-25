@@ -16,7 +16,7 @@ pkg> add PyGDatasets
 
 The package provides the following functions:
 - `load_dataset(dataset::String; kws...)`: Load a pytorch geometric dataset and convert it to julia types.
-- `pygdata_to_gnngraph(data)`: Convert a PyTorch Geometric graph type to a `GNNGraphs.jl` graph type.
+- `pygdata_to_gnngraph(data)`: Convert a PyTorch Geometric graph type to a `GNNGraphs.jl` graph type. Handles both standard graphs and heterogeneous graphs.
 
 ## Examples
 
@@ -49,6 +49,10 @@ load_dataset("GNNBenchmarkDataset", name="CSL")
 load_dataset("ZINC", subset=true, split="test")
 load_dataset("Planetoid", root="./", name="Cora")
 load_dataset("MoleculeNet", name="ESOL")
+
+# heterographs
+load_dataset("IMDB")
+load_dataset("AMiner")
 ```
 
 ## Dataset References
