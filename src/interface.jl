@@ -36,15 +36,15 @@ function pygdata_to_gnngraph(data)
     @assert all(1 .<= src)
     if !all(src .<= num_nodes)
         n = maximum(src)
-        @warn lazy"Found node index $n in edge index `src`, but only $num_nodes nodes in the graph.
-        Updating num_nodes to $n. This message won't be displayed again." maxlog=1
+        # @warn lazy"Found node index $n in edge index `src`, but only $num_nodes nodes in the graph.
+        # Updating num_nodes to $n. This message won't be displayed again." maxlog=1
         num_nodes = n
     end
     @assert all(1 .<= dst)
     if !all(dst .<= num_nodes)
         n = maximum(dst)
-        @warn lazy"Found node index $n in edge index `dst`, but only $num_nodes nodes in the graph. 
-        Updating num_nodes to $n. This message won't be displayed again." maxlog=1
+        # @warn lazy"Found node index $n in edge index `dst`, but only $num_nodes nodes in the graph. 
+        # Updating num_nodes to $n. This message won't be displayed again." maxlog=1
         num_nodes = n
     end
     
