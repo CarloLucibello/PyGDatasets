@@ -52,7 +52,7 @@ load_dataset("MoleculeNet", name="ESOL")
 
 # heterographs
 load_dataset("IMDB")
-load_dataset("AMiner")
+load_dataset("MovieLens100K")
 ```
 
 ## Dataset References

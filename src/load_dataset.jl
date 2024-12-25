@@ -7,7 +7,7 @@ and return it as an  [`InMemoryGNNDataset`](@ref) object.
 The keyword arguments `kws` are passed to the dataset constructor.
 
 See [`pygdata_to_gnngraph`](@ref) for details on the conversion of 
-PyTorch Geometric `Data` objects to `GNNGraph`s.
+PyTorch Geometric `Data` and `HeteroData` objects to `GNNGraph` and `GNNHeteroGraph` objects.
 
 For PyG datasets requiring a `root` argument, the default value 
 `"\$(PyGDatasets.DEFAULT_ROOT[])/\$name"` is provided if not specified.
@@ -21,11 +21,9 @@ This scratch space will be deleted when the package is removed.
 # Examples
 
 ```julia
-load_dataset("TUDataset", root="./", name="MUTAG")
-# is equivalent to the python code
-# pyg.datasets.TUDataset(root="./", name="MUTAG")
-
-load_dataset("Planetoid", name="Cora")
+dataset = load_dataset("TUDataset", root="./", name="MUTAG")
+dataset = load_dataset("Planetoid", name="Cora") # use default root
+dataset = load_dataset("IMDB") # heterogenous graph dataset
 ```
 """
 function load_dataset(dataset::String; root=nothing, kws...)

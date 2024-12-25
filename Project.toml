@@ -1,7 +1,7 @@
 name = "PyGDatasets"
 uuid = "44f67abd-f36e-4be4-bfe5-65f468a62b3d"
 authors = ["Carlo Lucibello <carlo.lucibello@gmail.com> and contributors"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 DLPack = "53c2dc0f-f7d5-43fd-8906-6c0220547083"
