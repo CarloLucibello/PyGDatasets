@@ -14,15 +14,15 @@ A graph dataset that holds all graphs in memory as a collection of `GNNGraph`s.
 - `graph_features::Vector{Symbol}`: The names of the graph features.
 - `root::Union{String, Nothing}`: The name of the root node.
 """
-struct InMemoryGNNDataset
+struct InMemoryGNNDataset{G<:AbstractGNNGraph, NF, EF, GF}
     dataset::String
-    subdataset::Union{String, Nothing}
-    graphs::Vector{GNNGraph}
+    subdataset::Union{String,Nothing}
+    graphs::Vector{G}
     num_graphs::Int
-    node_features::Vector{Symbol}
-    edge_features::Vector{Symbol}
-    graph_features::Vector{Symbol}
-    root::Union{String, Nothing}
+    node_features::NF
+    edge_features::EF
+    graph_features::GF
+    root::Union{String,Nothing}
 end
 
 Base.getindex(d::InMemoryGNNDataset, i::Int) = d.graphs[i]
@@ -40,10 +40,20 @@ function Base.show(io::IO, d::InMemoryGNNDataset)
         end
         println(io, " - InMemoryGNNDataset")
         print(io, "  num_graphs: ", length(d))
-        if length(d.node_features) > 0
+        if d.node_features isa Dict
+            features = Dict(k => v for (k, v) in d.node_features if length(v) > 0)
+            if length(features) > 0
+                print(io, "\n  node_features: ", features)
+            end     
+        elseif length(d.node_features) > 0
             print(io, "\n  node_features: ", d.node_features)
         end
-        if length(d.edge_features) > 0
+        if d.edge_features isa Dict
+            features = Dict(k => v for (k, v) in d.edge_features if length(v) > 0)
+            if length(features) > 0
+                print(io, "\n  edge_features: ", features)
+            end
+        elseif length(d.edge_features) > 0
             print(io, "\n  edge_features: ", d.edge_features)
         end
         if length(d.graph_features) > 0

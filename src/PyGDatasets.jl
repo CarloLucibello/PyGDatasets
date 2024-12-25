@@ -1,15 +1,18 @@
 module PyGDatasets
 
 using PythonCall
-using GNNGraphs: GNNGraph
+using GNNGraphs: GNNGraph, AbstractGNNGraph, GNNHeteroGraph
 using DLPack: from_dlpack
 using Scratch: get_scratch!
 
 include("inmemorydataset.jl")
 export InMemoryGNNDataset
 
-include("interface.jl")
-export pygdata_to_gnngraph, load_dataset
+include("graph_conversion.jl")
+export pygdata_to_gnngraph
+
+include("load_dataset.jl")
+export load_dataset
 
 const pyg = PythonCall.pynew()
 const np = PythonCall.pynew()
